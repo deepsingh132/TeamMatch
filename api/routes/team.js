@@ -1,16 +1,39 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Team = require("../models/Team");
+const multer = require("multer");
+
 //Create Team
-router.post("/:id", async (req, res) => {
-  const newTeam = new Team(req.body);
-  try {
-    const savedTeam = await newTeam.save();
-    res.status(200).json(savedTeam);
-  } catch (err) {
-    res.status(500).json(err);
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+router.post("/:id", upload.single("img"), async (req, res) => {
+  const teamMemberData = {
+    username: req.body.username,
+    fullName: req.body.fullName,
+    teamName: req.body.teamName,
+    designation: req.body.designation,
+    skills: req.body.skills,
+    experience: req.body.experience,
+  };
+
+  if (req.file) { //Optional pfp upload of team member
+    teamMemberData.img = {
+      data: req.file.buffer,
+      contentType: req.file.mimetype,
+    };
+  }
+
+  const teamMember = new Team(teamMemberData);
+  try{
+    await teamMember.save();
+    res.status(200).send("Team member created successfully!");
+  } catch(err) {
+    console.error(err);
+    res.status(500).json({error: "Something went wrong, please try again"});
   }
 });
+
 //Updates a team
 router.put("/:id", async (req, res) => {
   try {
@@ -77,7 +100,7 @@ router.get("/", async (req, res) => {
       teams = await Team.find();
     }
     res.status(200).json(teams);
-    console.log(await Team.countDocuments({username}));
+    console.log(await Team.countDocuments({ username }));
   } catch (err) {
     res.status(500).json(err);
   }

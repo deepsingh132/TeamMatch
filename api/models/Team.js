@@ -7,6 +7,11 @@ const TeamMemberSchema = new Schema({
       unique: true,
       required: true
     },
+    img:{
+      data: Buffer,
+      required: false,
+      contentType: String
+    },
     fullName: {
         type: String,
         required: true
