@@ -1,13 +1,14 @@
 import * as React from 'react';
 import { useState, useEffect } from "react";
 import './App.css';
-import Header from './Header';
+import Header from './header/Header';
 import Employees from './Employees';
-import Footer from './Footer';
+import Footer from './footer/Footer';
 import GroupedTeamMembers from './GroupedTeamMembers';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Navbar from './Navbar';
+import Navbar from './navbar/Navbar';
 import NotFound from './NotFound';
+import Register from './register/Register';
 
 function App(){
 
@@ -130,6 +131,8 @@ function App(){
             selectedTeam = {selectedTeam}
             handleEmployeeCardClick={handleEmployeeCardClick}
             handleTeamSelectionChange={handleTeamSelectionChange}/>}>
+          </Route>
+          <Route path='/register' element={<Register/>}>
           </Route>
           <Route path="/GroupedTeamMembers" element={<GroupedTeamMembers employees = {employees}
                                                         selectedTeam = {selectedTeam} setTeam = {setTeam} />}>
