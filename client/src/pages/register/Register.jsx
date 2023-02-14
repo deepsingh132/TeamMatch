@@ -1,26 +1,27 @@
 import axios from "axios";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { registerStart, registerFailure, registerSuccess } from "../../redux/userSlice";
+import { useDispatch } from "react-redux";
 import "./register.css";
 
-export default function Register() {
+const Register = ()=> {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false);
     try {
-      const res = await axios.post("/auth/register", {
-        username,
-        email,
-        password,
-      });
-      res.data && window.location.replace("/login");
+      const res = await axios.post("/auth/register", {username,email,password});
+      dispatch(registerSuccess(res.data));
+      navigate("/");
     } catch (err) {
-      setError(true);
+      //setError(true);
+      dispatch(registerFailure());
     }
   };
   return (
@@ -61,3 +62,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default Register;

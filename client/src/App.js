@@ -74,19 +74,16 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
       {/* <Header selectedTeam = {selectedTeam}
         teamMemberCount={employees.filter((employee) => employee.teamName === selectedTeam).length}/> */}
       <Routes>
-        <Route path="/" element= {currentUser ? <Home/> : <Login /> }>
-          <Route path="home" element = {<Home />} />
-          <Route path="login" element={currentUser ? <Home /> : <Login />} />
+        <Route path="/" element= {currentUser ? <Home/> : <Login /> }/>
+          <Route path="/login" element={currentUser ? <Home /> : <Login />} />
 
           <Route
-            path="register"
+            path="/register"
             element={currentUser ? <Home /> : <Register />}
           />
-        </Route>
 
         <Route
           path="/GroupedTeamMembers"

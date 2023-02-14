@@ -14,7 +14,16 @@ export const signUp = async (req, res, next) => {
     });
 
     await newUser.save();
-    res.status(200).json("User Created!");
+
+    const { password, ...others } = newUser._doc;
+    console.log("Signed Up Successfully!");
+
+    const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+    res
+      .cookie("access_token", token, {
+        httpOnly: true,
+      })
+      .status(200).json({...others});
   } catch (err) {
     next(createError(404, "Username or email already in use!"));
   }
