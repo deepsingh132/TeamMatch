@@ -1,14 +1,17 @@
-const express = require("express");
+import express from "express";
 const app = express();
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/users.js");
-const teamRoute = require("./routes/team.js");
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import authRoute from "./routes/auth.js";
+import userRoute from "./routes/users.js";
+import teamRoute from "./routes/team.js";
+import cookieParser from "cookie-parser";
 const port = 4000;
 
 mongoose.set("strictQuery", false);
 dotenv.config();
+
+app.use(cookieParser())
 app.use(express.json());
 
 mongoose
@@ -20,6 +23,18 @@ app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/teams", teamRoute);
 
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong!";
+  return res.status(status).json({
+    success: false,
+    status,
+    message
+  });
+});
+
 app.listen(port, () => {
   console.log("App running at port:", port);
 });
+
+export default app;

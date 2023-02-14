@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const TeamMemberSchema = new Schema({
@@ -38,4 +38,6 @@ const TeamMemberSchema = new Schema({
     { timestamps: true}
 );
 
-module.exports = TeamMember = mongoose.model("Teams", TeamMemberSchema);
+const TeamMemberModel = mongoose.model("Teams", TeamMemberSchema);
+
+export default TeamMemberModel;
