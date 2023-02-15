@@ -100,5 +100,5 @@ export const updateTeam =  async (req, res) => {
       res.status(500).json(err);
     }
   }
-  
+
 export default Team;

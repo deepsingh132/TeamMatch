@@ -18,6 +18,7 @@ const TeamMemberSchema = new Schema({
       },
       teamName: {
         type: String,
+        enum: ['A', 'B', 'C', 'D'], // only accept values A, B, C, and D
         required: true
       },
       designation: {
