@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import Lottie from "lottie-react";
 import { useNavigate } from "react-router-dom";
 import "./createTeam.css";
+import Success from "../lottie/Success";
 
 const CreateTeam = () => {
   const [username, setUsername] = useState("");
@@ -12,9 +12,7 @@ const CreateTeam = () => {
   const [skills, setSkills] = useState("");
   const [experience, setExperience] = useState(0);
   const [img, setImg] = useState(null);
-  // const [setLoading, setIsLoading] = useState(false);
-  // const [setSuccess, setIsSuccess] = useState(false);
-  // const [setError, setIsError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -36,7 +34,8 @@ const CreateTeam = () => {
     try {
       const res = await axios.post("/teams/:id", formData);
       console.log(res.data);
-      navigate("/");
+      setSuccess(true);
+      setTimeout(() => navigate("/"), 3000); // Navigate after 3 seconds
     } catch (err) {
       console.log(err);
       //setError(true);
@@ -108,13 +107,57 @@ const CreateTeam = () => {
           onChange={(e) => setExperience(e.target.value)}
         />
 
-        <label>Employee Image</label>
-        <input type="file" accept="image/*" onChange={handleImgChange} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <label htmlFor="fileInput" style={{ flexBasis: "40%" }}>
+            Employee Image:
+          </label>
+          <input
+            type="file"
+            accept=".jpg,.jpeg,.png"
+            name="fileInput"
+            onChange={(e) => {
+              const selectedFile = e.target.files[0];
+              if (!selectedFile) {
+                return;
+              }
+              if (
+                selectedFile.type !== "image/jpeg" &&
+                selectedFile.type !== "image/png"
+              ) {
+                alert("Only JPG and PNG files are allowed!");
+                e.target.value = null;
+                return;
+              }
+              if (selectedFile.size > 1048576) {
+                alert("File size should not exceed 1MB!");
+                e.target.value = null;
+                return;
+              }
+              handleImgChange(e);
+            }}
+          />
+        </div>
 
         <button className="createTeambtn" type="submit">
           Create Team
         </button>
       </form>
+
+      {/* Lottie animation displayed conditionally based on the success state */}
+      {success && (
+        <div className="registerSuccess">
+          <div className="successCard">
+            {<Success/>}
+            <h2>Team member created successfully</h2>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

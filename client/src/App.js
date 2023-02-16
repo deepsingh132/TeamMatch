@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-//import './App.css';
 import Header from "./pages/header/Header";
 import Employees from "./pages/Employees";
 import Footer from "./pages/footer/Footer";
@@ -11,7 +10,6 @@ import NotFound from "./pages/NotFound";
 import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import Home from "./pages/home/Home";
 import CreateTeam from "./pages/team/CreateTeam";
 
@@ -21,7 +19,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <Navbar />
+      {currentUser && <Navbar />}
       <Routes>
         <Route path="/" element={currentUser ? <Home currentUser = {currentUser} /> : <Login />} />
         <Route path="/login" element={currentUser ? <Home /> : <Login />} />

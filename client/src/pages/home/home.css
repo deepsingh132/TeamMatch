@@ -13,6 +13,13 @@ body{
       text-align:center;
   }
 
+  .loadingAnimation{
+    display: flex;
+justify-content: center;
+align-items: center;
+
+  }
+
   @media only screen and (max-width:600px){
     .card-collection{
       grid-template-columns: 1fr;

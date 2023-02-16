@@ -8,11 +8,6 @@ const TeamMemberCard = ({
   handleEmployeeCardClick,
   selectedTeam,
 }) => {
-  if (employee.img) {
-    const buffer = Buffer.from(employee.img.data);
-    const base64Image = buffer.toString("base64");
-    console.log("Image data:", base64Image);
-  }
 
   return (
     <div
