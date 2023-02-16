@@ -1,9 +1,21 @@
 import Team from "../models/Team.js";
 import multer from "multer";
+import sharp from "sharp";
 
 // Create Team
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage }).single("img");
+const upload = multer({
+  storage: storage,
+  limits: {
+  fileSize: 10485760,
+  },
+  fileFilter(req,file,cb) {
+    if(!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
+      return cb(new Error("Only images allowed"));
+    }
+    cb(undefined,true);
+  }
+}).single("img");
 
 export const createTeam = async(req, res) => {
     upload(req, res, async (err) => {
@@ -17,8 +29,19 @@ export const createTeam = async(req, res) => {
     };
 
     if (req.file) { //Optional pfp upload of team member
+      const buffer = await sharp(req.file.buffer)
+      .resize({width: 800, height: 800, fit: "inside"})
+      .jpeg({ quality: 65 })
+      .toBuffer();
+
+      if (buffer.length > 1048576) {
+        return res
+          .status(400)
+          .send({ error: "Image is too large, max file size allowed is 1MB" });
+      }
+
       teamMemberData.img = {
-        data: req.file.buffer,
+        data: buffer,
         contentType: req.file.mimetype,
       };
     }
