@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { Buffer } from "buffer";
-import femaleProfile from "../images/femaleProfile.png";
-import maleProfile from "../images/maleProfile.png";
+import femaleProfile from "../../images/femaleProfile.png";
+import maleProfile from "../../images/maleProfile.png";
 
 const TeamMemberCard = ({
   employee,
@@ -14,7 +14,7 @@ const TeamMemberCard = ({
       key={employee.id}
       id={employee.id}
       className={
-        employee.teamName === selectedTeam ? "card m-2 standout" : "card m-2"
+        employee.teamName === selectedTeam ? "card m-2 standout" : "card border-0 shadow m-2"
       }
       style={{ cursor: "pointer" }}
       onClick={handleEmployeeCardClick}
@@ -22,13 +22,14 @@ const TeamMemberCard = ({
       <div style={{ display: "flex", flexDirection: "column" }}>
         {employee.img ? (
           <img
-            className="team-card__img"
+            class="card-img-top"
             src={`data:${employee.img.contentType};base64,${Buffer.from(
               employee.img.data
             ).toString("base64")}`}
           />
         ) : (
           <img
+            class="card-img-top"
             src={employee.gender === "female" ? femaleProfile : maleProfile}
           />
         )}

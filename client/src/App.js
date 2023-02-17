@@ -1,9 +1,8 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
 import Header from "./pages/header/Header";
-import Employees from "./pages/Employees";
+import Employees from "./pages/team/Employees";
 import Footer from "./pages/footer/Footer";
-import GroupedTeamMembers from "./pages/GroupedTeamMembers";
+import GroupedTeamMembers from "./pages/team/GroupedTeamMembers";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./pages/navbar/Navbar";
 import NotFound from "./pages/NotFound";
@@ -11,7 +10,7 @@ import Register from "./pages/register/Register";
 import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
 import Home from "./pages/home/Home";
-import CreateTeam from "./pages/team/CreateTeam";
+import CreateTeam from "./pages/team/Team";
 
 export default function App() {
   const { currentUser } = useSelector((state) => state.user);

@@ -1,27 +1,32 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./createTeam.css";
-import Success from "../lottie/Success";
 
-const CreateTeam = () => {
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [teamName, setTeamName] = useState("A");
-  const [designation, setDesignation] = useState("");
-  const [skills, setSkills] = useState("");
-  const [experience, setExperience] = useState(0);
-  const [img, setImg] = useState(null);
-  const [success, setSuccess] = useState(false);
-  const navigate = useNavigate();
+import "./Team.css";
 
-  const handleSubmit = async (e) => {
+import {
+  USERNAME_INITIAL_STATE,
+  FULLNAME_INITIAL_STATE,
+  TEAMNAME_INITIAL_STATE,
+  DESIGNATION_INITIAL_STATE,
+  SKILLS_INITIAL_STATE,
+  EXPERIENCE_INITIAL_STATE,
+  IMG_INITIAL_STATE,
+} from "../../constants/constants";
+
+const TeamForm = (props) => {
+
+
+  const [username, setUsername] = useState(USERNAME_INITIAL_STATE);
+  const [fullName, setFullName] = useState(FULLNAME_INITIAL_STATE);
+  const [teamName, setTeamName] = useState(TEAMNAME_INITIAL_STATE);
+  const [designation, setDesignation] = useState(DESIGNATION_INITIAL_STATE);
+  const [skills, setSkills] = useState(SKILLS_INITIAL_STATE);
+  const [experience, setExperience] = useState(EXPERIENCE_INITIAL_STATE);
+  const [img, setImg] = useState(IMG_INITIAL_STATE);
+
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    // setLoading(true);
-    // setSuccess(false);
-    // setError(false);
-
-    const formData = new FormData();
+    const formData = new FormData(e.target);
     formData.append("username", username);
     formData.append("fullName", fullName);
     formData.append("teamName", teamName);
@@ -31,25 +36,20 @@ const CreateTeam = () => {
     if (img) {
       formData.append("img", img);
     }
-    try {
-      const res = await axios.post("/teams/:id", formData);
-      console.log(res.data);
-      setSuccess(true);
-      setTimeout(() => navigate("/"), 3000); // Navigate after 3 seconds
-    } catch (err) {
-      console.log(err);
-      //setError(true);
-    }
+    props.onSubmit(formData);
   };
 
   const handleImgChange = (e) => {
     setImg(e.target.files[0]);
   };
 
+
+
+
   return (
     <div className="register">
       <span className="registerTitle">Create Team</span>
-      <form className="registerForm" onSubmit={handleSubmit}>
+      <form className="registerForm" onSubmit={onSubmit}>
         <label>Username</label>
         <input
           type="text"
@@ -148,18 +148,8 @@ const CreateTeam = () => {
           Create Team
         </button>
       </form>
-
-      {/* Lottie animation displayed conditionally based on the success state */}
-      {success && (
-        <div className="registerSuccess">
-          <div className="successCard">
-            {<Success/>}
-            <h2>Team member created successfully</h2>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default CreateTeam;
+export default TeamForm;
