@@ -27,6 +27,10 @@ export default function App() {
           element={currentUser ? <CreateTeam /> : <Login />}
         />
         <Route
+        path= "/updateteam"
+        element={currentUser ? <CreateTeam /> : <Login />}
+        />
+        <Route
           path="/register"
           element={currentUser ? <Home /> : <Register />}
         />

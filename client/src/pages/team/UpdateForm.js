@@ -1,9 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import "./Team.css";
 
 import {
-  USERNAME_INITIAL_STATE,
   FULLNAME_INITIAL_STATE,
   TEAMNAME_INITIAL_STATE,
   DESIGNATION_INITIAL_STATE,
@@ -12,17 +10,17 @@ import {
   IMG_INITIAL_STATE,
 } from "../../constants/constants";
 
-const TeamForm = (props) => {
+const UpdateForm = (props) => {
+  const { selectedEmployee, username } = props;
+  //const username = props.username;
+  console.log(props.username);
 
-
-  const [username, setUsername] = useState(USERNAME_INITIAL_STATE);
   const [fullName, setFullName] = useState(FULLNAME_INITIAL_STATE);
   const [teamName, setTeamName] = useState(TEAMNAME_INITIAL_STATE);
   const [designation, setDesignation] = useState(DESIGNATION_INITIAL_STATE);
   const [skills, setSkills] = useState(SKILLS_INITIAL_STATE);
   const [experience, setExperience] = useState(EXPERIENCE_INITIAL_STATE);
   const [img, setImg] = useState(IMG_INITIAL_STATE);
-
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -37,27 +35,32 @@ const TeamForm = (props) => {
       formData.append("img", img);
     }
     props.onSubmit(formData);
+
+    console.log(formData);
+
   };
 
   const handleImgChange = (e) => {
     setImg(e.target.files[0]);
   };
 
-
-
+  useEffect(() => {
+    if (selectedEmployee) {
+      setFullName(selectedEmployee.fullName);
+      setTeamName(selectedEmployee.teamName);
+      setDesignation(selectedEmployee.designation);
+      setSkills(selectedEmployee.skills);
+      setExperience(selectedEmployee.experience);
+    }
+  }, [selectedEmployee]);
 
   return (
     <div className="register">
-      <span className="registerTitle">Create Team</span>
-      <form className="registerForm" onSubmit={onSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          value={username}
-          className="registerInput"
-          placeholder="Enter username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
+      <span className="registerTitle">Update Member</span>
+      <form className="registerForm"
+      onSubmit={onSubmit}
+      encType="multipart/form-data"
+      >
         <label>Full Name</label>
         <input
           type="text"
@@ -145,11 +148,11 @@ const TeamForm = (props) => {
         </div>
 
         <button className="createTeambtn" type="submit">
-          Create Team
+          Update Team
         </button>
       </form>
     </div>
   );
 };
 
-export default TeamForm;
+export default UpdateForm;

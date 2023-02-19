@@ -1,14 +1,17 @@
 import Teams from "./TeamsDropdown";
 import TeamMembers from "./TeamMembers";
-import { Button } from "react-bootstrap";
 
 const Employees = ({
   employees,
   selectedTeam,
   handleEmployeeCardClick,
   handleTeamSelectionChange,
-  teams,
+  username,
 }) => {
+
+  // const { selectedEmployee } = this.state;
+  // console.log(selectedEmployee._id);
+
   return (
     <main className="container">
       <div className="row justify-content-center mt-3 mb-3">
@@ -16,13 +19,14 @@ const Employees = ({
           <Teams
             selectedTeam={selectedTeam}
             handleTeamSelectionChange={handleTeamSelectionChange}
-            teams={teams}
+            username={username}
+            handleEmployeeCardClick={handleEmployeeCardClick}
           />
         </div>
       </div>
 
       <div className="row justify-content-center mt-3 mb-3">
-        <div className="col-8">
+        <div className="col-9">
           <div className="card-collection">
             <TeamMembers
               employees={employees.filter(

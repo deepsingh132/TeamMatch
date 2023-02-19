@@ -2,14 +2,17 @@ import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 
-const Teams = ({ selectedTeam, handleTeamSelectionChange }) => {
+const Teams = ({ selectedTeam, handleTeamSelectionChange, username }) => {
 
   const teamNames = ["A", "B", "C", "D"];
   const navigate = useNavigate();
+  console.log(username);
 
   const handleBtn = () => {
-    navigate('/createTeam');
+    navigate('/createteam', {state: {username}} );
   }
+
+
 
   return (
     <div class="d-flex align-items-center">

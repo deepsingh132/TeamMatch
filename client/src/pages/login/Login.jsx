@@ -9,7 +9,6 @@ import "./login.css";
 const Login = () => {
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,13 +39,6 @@ const Login = () => {
           onChange={(e) => setUsername(e.target.value)}
         />
 
-<label>Email</label>
-        <input
-          type="password"
-          className="loginInput"
-          placeholder="email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
 
         <label>Password</label>
         <input
