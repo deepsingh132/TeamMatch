@@ -1,6 +1,7 @@
 import Team from "../models/Team.js";
 import multer from "multer";
 import sharp from "sharp";
+import formidable from "formidable";
 
 // Create Team
 const storage = multer.memoryStorage();
@@ -27,6 +28,7 @@ export const createTeam = async(req, res) => {
       skills: req.body.skills,
       experience: req.body.experience,
     };
+
 
     if (req.file) { //Optional pfp upload of team member
       const buffer = await sharp(req.file.buffer)
@@ -57,16 +59,79 @@ export const createTeam = async(req, res) => {
     });
 }
 
-export const updateTeam =  async (req, res) => {
-    try {
+// export const updateTeam =  async (req, res) => {
+//     try {
+//       const team = await Team.findById(req.params.id);
+//       console.log(req.params.id);
+//       console.log(req.body.username);
+
+//       if (team.username == req.body.username) {
+//         try {
+//           const updatedTeam = await Team.findByIdAndUpdate(
+//             req.params.id,
+//             {
+//               $set: req.body,
+//             },
+//             { new: true }
+//           );
+//           res.status(200).json(updatedTeam);
+//         } catch (err) {
+//           res.status(500).json(err);
+//         }
+//       } else {
+//         res.status(401).json("You can update only your own team!");
+//       }
+//     } catch (err) {
+//       res.status(500).json(err);
+//     }
+//   }
+
+export const updateTeam = async (req, res) => {
+  try {
+    const form = formidable();
+    form.parse(req, async (err, fields, files) => {
+      if (err) {
+        return res.status(400).json({ error: err.message });
+      }
+
+      const teamMemberData = {
+        username: fields.username,
+        fullName: fields.fullName,
+        teamName: fields.teamName,
+        designation: fields.designation,
+        skills: fields.skills,
+        experience: fields.experience,
+      };
+      console.log(fields);
+      console.log(teamMemberData);
+
+      if (files.img) {
+        const buffer = await sharp(files.img.path)
+          .resize({ width: 800, height: 800, fit: "inside" })
+          .jpeg({ quality: 65 })
+          .toBuffer();
+
+        if (buffer.length > 1048576) {
+          return res
+            .status(400)
+            .send({
+              error: "Image is too large, max file size allowed is 1MB",
+            });
+        }
+
+        teamMemberData.img = {
+          data: buffer,
+          contentType: files.img.type,
+        };
+      }
+
       const team = await Team.findById(req.params.id);
-      if (team.username == req.body.username) {
+      console.log(fields.username);
+      if (team.username == teamMemberData.username) {
         try {
           const updatedTeam = await Team.findByIdAndUpdate(
             req.params.id,
-            {
-              $set: req.body,
-            },
+            teamMemberData,
             { new: true }
           );
           res.status(200).json(updatedTeam);
@@ -76,10 +141,12 @@ export const updateTeam =  async (req, res) => {
       } else {
         res.status(401).json("You can update only your own team!");
       }
-    } catch (err) {
-      res.status(500).json(err);
-    }
+    });
+  } catch (err) {
+    res.status(500).json(err);
   }
+};
+
 
   export const deleteTeam = async (req, res) => {
     try {
