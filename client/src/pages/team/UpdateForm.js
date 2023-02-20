@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Team.css";
+import { Buffer } from "buffer";
 
 import {
   FULLNAME_INITIAL_STATE,
@@ -31,17 +32,44 @@ const UpdateForm = (props) => {
     formData.append("designation", designation);
     formData.append("skills", skills);
     formData.append("experience", experience);
-    if (img) {
-      formData.append("img", img);
-    }
+    formData.append("img", img);
+    // if (img) {
+    //   formData.append("img", img);
+    // }
     props.onSubmit(formData);
 
     console.log(formData);
+    console.log(formData.get('img'));
 
   };
 
   const handleImgChange = (e) => {
-    setImg(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+     const reader = new FileReader();
+    if (!selectedFile) {
+      setImg(null);
+      return;
+    }
+    if (
+      selectedFile.type !== "image/jpeg" &&
+      selectedFile.type !== "image/png"
+    ) {
+      alert("Only JPG and PNG files are allowed!");
+      setImg(null);
+      return;
+    }
+    if (selectedFile.size > 1048576) {
+      alert("File size should not exceed 1MB!");
+      setImg(null);
+      return;
+    }
+
+    reader.onload = () => {
+      const buffer = Buffer.from(reader.result);
+      setImg(buffer);
+    };
+    reader.readAsArrayBuffer(selectedFile);
+
   };
 
   useEffect(() => {
@@ -51,6 +79,7 @@ const UpdateForm = (props) => {
       setDesignation(selectedEmployee.designation);
       setSkills(selectedEmployee.skills);
       setExperience(selectedEmployee.experience);
+      setImg(selectedEmployee.img)
     }
   }, [selectedEmployee]);
 
@@ -59,7 +88,6 @@ const UpdateForm = (props) => {
       <span className="registerTitle">Update Member</span>
       <form className="registerForm"
       onSubmit={onSubmit}
-      encType="multipart/form-data"
       >
         <label>Full Name</label>
         <input
@@ -123,25 +151,8 @@ const UpdateForm = (props) => {
           <input
             type="file"
             accept=".jpg,.jpeg,.png"
-            name="fileInput"
+            name="img"
             onChange={(e) => {
-              const selectedFile = e.target.files[0];
-              if (!selectedFile) {
-                return;
-              }
-              if (
-                selectedFile.type !== "image/jpeg" &&
-                selectedFile.type !== "image/png"
-              ) {
-                alert("Only JPG and PNG files are allowed!");
-                e.target.value = null;
-                return;
-              }
-              if (selectedFile.size > 1048576) {
-                alert("File size should not exceed 1MB!");
-                e.target.value = null;
-                return;
-              }
               handleImgChange(e);
             }}
           />
