@@ -5,10 +5,10 @@
     align-items: center;
     justify-content: center;
     background: linear-gradient(
-        rgba(255, 255, 255, 0.5),
-        rgba(255, 255, 255, 0.5)
+        rgba(255, 255, 255, 0.6),
+        rgba(255, 255, 255, 0.6)
       ),
-      url("https://images.pexels.com/photos/768473/pexels-photo-768473.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500");
+      url("https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
     background-size: cover;
   }
 
@@ -35,7 +35,7 @@
   .loginButton {
     margin-top: 20px;
     cursor: pointer;
-    background-color: lightcoral;
+    background-color: black;
     border: none;
     color: white;
     border-radius: 10px;
@@ -51,7 +51,7 @@
     position: absolute;
     top: 60px;
     right: 20px;
-    background-color: teal;
+    background-color: black;
     cursor: pointer;
     border: none;
     padding: 10px;

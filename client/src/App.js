@@ -1,8 +1,5 @@
 import * as React from "react";
-import Header from "./pages/header/Header";
-import Employees from "./pages/team/Employees";
 import Footer from "./pages/footer/Footer";
-import GroupedTeamMembers from "./pages/team/GroupedTeamMembers";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./pages/navbar/Navbar";
 import NotFound from "./pages/NotFound";

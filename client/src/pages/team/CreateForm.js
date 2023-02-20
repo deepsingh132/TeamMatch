@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Team.css";
+import { Buffer } from "buffer";
 
 import {
   FULLNAME_INITIAL_STATE,
@@ -12,6 +13,7 @@ import {
 
 const CreateForm = (props) => {
 
+
   const username = props.username;
 
   const [fullName, setFullName] = useState(FULLNAME_INITIAL_STATE);
@@ -20,8 +22,6 @@ const CreateForm = (props) => {
   const [skills, setSkills] = useState(SKILLS_INITIAL_STATE);
   const [experience, setExperience] = useState(EXPERIENCE_INITIAL_STATE);
   const [img, setImg] = useState(IMG_INITIAL_STATE);
-
-
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -32,18 +32,42 @@ const CreateForm = (props) => {
     formData.append("designation", designation);
     formData.append("skills", skills);
     formData.append("experience", experience);
-    if (img) {
-      formData.append("img", img);
-    }
+    console.log("FormData:", formData);
     props.onSubmit(formData);
   };
 
-  const handleImgChange = (e) => {
-    setImg(e.target.files[0]);
+  const validateImage = (file) => {
+    if (!file) {
+      return { valid: false, message: "No file selected" };
+    }
+    if (!file.type.match(/^image\/(jpeg|png)$/)) {
+      return { valid: false, message: "Only JPG and PNG files are allowed!" };
+    }
+    if (file.size > 1048576) {
+      return { valid: false, message: "File size should not exceed 1MB!" };
+    }
+    return { valid: true };
   };
 
+ const handleImgChange = (e) => {
+   const selectedFile = e.target.files[0];
+   const reader = new FileReader();
 
-
+   const validation = validateImage(selectedFile);
+   if (validation.valid) {
+     reader.onload = () => {
+       const buffer = Buffer.from(reader.result);
+       setImg(buffer);
+     };
+     reader.readAsArrayBuffer(selectedFile);
+   } else {
+     setImg(null);
+     alert(validation.message);
+     e.target.value = null; // Reset file input value to empty string
+     return;
+   }
+   setImg(null);
+ };
 
   return (
     <div className="register">
@@ -55,12 +79,14 @@ const CreateForm = (props) => {
           value={fullName}
           className="registerInput"
           placeholder="Enter name"
+          required
           onChange={(e) => setFullName(e.target.value)}
         />
         <label>Team Name</label>
         <select
           value={teamName}
           className="registerInput"
+          required
           onChange={(e) => setTeamName(e.target.value)}
         >
           <option value="A">Team A</option>
@@ -75,6 +101,7 @@ const CreateForm = (props) => {
           value={designation}
           className="registerInput"
           placeholder="Enter designation"
+          required
           onChange={(e) => setDesignation(e.target.value)}
         />
 
@@ -84,6 +111,7 @@ const CreateForm = (props) => {
           value={skills}
           className="registerInput"
           placeholder="Enter skills"
+          required
           onChange={(e) => setSkills(e.target.value)}
         />
 
@@ -94,42 +122,26 @@ const CreateForm = (props) => {
           className="registerInput"
           placeholder="Enter experience"
           min="0"
-          step="0.1"
+          step="0.5"
           onChange={(e) => setExperience(e.target.value)}
         />
 
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
             alignItems: "center",
+            flexDirection: "row",
+            width: "100%",
           }}
         >
-          <label htmlFor="fileInput" style={{ flexBasis: "40%" }}>
+          <label htmlFor="fileInput" style={{ flexBasis: "40%" , marginRight: "10px"}}>
             Employee Image:
           </label>
           <input
             type="file"
             accept=".jpg,.jpeg,.png"
-            name="fileInput"
+            name="img"
             onChange={(e) => {
-              const selectedFile = e.target.files[0];
-              if (!selectedFile) {
-                return;
-              }
-              if (
-                selectedFile.type !== "image/jpeg" &&
-                selectedFile.type !== "image/png"
-              ) {
-                alert("Only JPG and PNG files are allowed!");
-                e.target.value = null;
-                return;
-              }
-              if (selectedFile.size > 1048576) {
-                alert("File size should not exceed 1MB!");
-                e.target.value = null;
-                return;
-              }
               handleImgChange(e);
             }}
           />

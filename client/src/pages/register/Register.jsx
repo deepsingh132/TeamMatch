@@ -32,6 +32,7 @@ const Register = ()=> {
         <input
           type="text"
           className="registerInput"
+          required
           placeholder="Enter your username..."
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -39,6 +40,7 @@ const Register = ()=> {
         <input
           type="text"
           className="registerInput"
+          required
           placeholder="Enter your email..."
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -46,6 +48,7 @@ const Register = ()=> {
         <input
           type="password"
           className="registerInput"
+          required
           placeholder="Enter your password..."
           onChange={(e) => setPassword(e.target.value)}
         />
@@ -54,7 +57,7 @@ const Register = ()=> {
         </button>
       </form>
       <button className="registerLoginButton">
-        <Link className="link" to="/login">
+        <Link className="link" to="/login" style={{textDecoration: "none", color: "#fff"}}>
           Login
         </Link>
       </button>

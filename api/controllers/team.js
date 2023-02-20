@@ -8,18 +8,29 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 10485760,
+    fileSize: 1048576, // 1MB limit
   },
-  fileFilter(req, file, cb) {
-    if (!file.originalname.match(/\.(png|jpg|jpeg)$/)) {
-      return cb(new Error("Only images allowed"));
+  fileFilter: (req, file, cb) => {
+    if (
+      file.mimetype !== "image/png" &&
+      file.mimetype !== "image/jpg" &&
+      file.mimetype !== "image/jpeg"
+    ) {
+      cb(new Error("Only PNG, JPG and JPEG files are allowed!"), false);
+    } else {
+      cb(null, true);
     }
-    cb(undefined, true);
   },
 }).single("img");
 
 export const createTeam = async(req, res) => {
-    upload(req, res, async (err) => {
+  upload(req, res, async (err) => {
+
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: err.message });
+    }
+
     const teamMemberData = {
       username: req.body.username,
       fullName: req.body.fullName,
@@ -32,11 +43,11 @@ export const createTeam = async(req, res) => {
 
     if (req.file) { //Optional pfp upload of team member
       const buffer = await sharp(req.file.buffer)
-      .resize({width: 800, height: 800, fit: "inside"})
+      .resize({width: 500, height: 500, fit: "inside"})
       .jpeg({ quality: 65 })
       .toBuffer();
 
-      if (buffer.length > 10485760) {
+      if (buffer.length > 1048576) {
         return res
           .status(400)
           .send({ error: "Image is too large, max file size allowed is 1MB" });
@@ -58,33 +69,15 @@ export const createTeam = async(req, res) => {
     }
     });
 }
-const uploads = multer({
-  storage: storage,
-  limits: {
-    fileSize: 10485760, // 1MB limit
-  },
-  fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype !== "image/png" &&
-      file.mimetype !== "image/jpg" &&
-      file.mimetype !== "image/jpeg"
-    ) {
-      cb(new Error("Only PNG, JPG and JPEG files are allowed!"), false);
-    } else {
-      cb(null, true);
-    }
-  },
-}).single("img");
+
 
 export const updateTeam =  async (req, res) => {
-  uploads(req, res, async (err) => {
+  upload(req, res, async (err) => {
 
     if (err) {
       console.error(err);
       return res.status(500).json({ error: err.message });
     }
-
-
 
     const teamMemberData = {
       username: req.body.username,
@@ -102,7 +95,7 @@ export const updateTeam =  async (req, res) => {
       .jpeg({ quality: 65 })
       .toBuffer();
 
-      if (buffer.length > 10485760) {
+      if (buffer.length > 1048576) {
         return res
           .status(400)
           .send({ error: "Image is too large, max file size allowed is 1MB" });
@@ -141,67 +134,6 @@ export const updateTeam =  async (req, res) => {
     }
   });
 }
-
-// export const updateTeam = async (req, res) => {
-//   try {
-//     const form = formidable();
-//     form.parse(req, async (err, fields, files) => {
-//       if (err) {
-//         return res.status(400).json({ error: err.message });
-//       }
-
-//       const teamMemberData = {
-//         username: fields.username,
-//         fullName: fields.fullName,
-//         teamName: fields.teamName,
-//         designation: fields.designation,
-//         skills: fields.skills,
-//         experience: fields.experience,
-//       };
-//       console.log(fields);
-//       console.log(teamMemberData);
-
-//       if (files.img) {
-//         const buffer = await sharp(files.img.path)
-//           .resize({ width: 800, height: 800, fit: "inside" })
-//           .jpeg({ quality: 65 })
-//           .toBuffer();
-
-//         if (buffer.length > 1048576) {
-//           return res
-//             .status(400)
-//             .send({
-//               error: "Image is too large, max file size allowed is 1MB",
-//             });
-//         }
-
-//         teamMemberData.img = {
-//           data: buffer,
-//           contentType: files.img.type,
-//         };
-//       }
-
-//       const team = await Team.findById(req.params.id);
-//       console.log(fields.username);
-//       if (team.username == teamMemberData.username) {
-//         try {
-//           const updatedTeam = await Team.findByIdAndUpdate(
-//             req.params.id,
-//             teamMemberData,
-//             { new: true }
-//           );
-//           res.status(200).json(updatedTeam);
-//         } catch (err) {
-//           res.status(500).json(err);
-//         }
-//       } else {
-//         res.status(401).json("You can update only your own team!");
-//       }
-//     });
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
 
 
   export const deleteTeam = async (req, res) => {

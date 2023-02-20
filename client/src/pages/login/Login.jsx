@@ -29,34 +29,39 @@ const Login = () => {
 
   return (
     <div className="login">
-      <span className="loginTitle">Login</span>
-      <form className="loginForm" onSubmit={handleSubmit}>
-        <label>Username</label>
-        <input
-          type="text"
-          className="loginInput"
-          placeholder="Enter your username"
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <span className="loginTitle">Login</span>
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <label>Username</label>
+          <input
+            type="text"
+            className="loginInput"
+            required
+            placeholder="Enter your username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-
-        <label>Password</label>
-        <input
-          type="password"
-          className="loginInput"
-          placeholder="Enter your password"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button className="loginButton" type="submit">
-          Login
+          <label>Password</label>
+          <input
+            type="password"
+            className="loginInput"
+            required
+            placeholder="Enter your password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button className="loginButton" type="submit">
+            Login
+          </button>
+        </form>
+        <button className="loginRegisterButton">
+          <Link
+            className="link"
+            to="/register"
+            style={{ textDecoration: "none", color: "#fff" }}
+          >
+            Register
+          </Link>
         </button>
-      </form>
-      <button className="loginRegisterButton">
-        <Link className="link" to="/register">
-          Register
-        </Link>
-      </button>
-    </div>
+      </div>
   );
 }
 

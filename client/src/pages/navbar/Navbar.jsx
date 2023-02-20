@@ -1,44 +1,77 @@
 import { useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
 import { logout } from "../../redux/userSlice";
 import { useNavigate, Link } from 'react-router-dom';
 import "material-icons/iconfont/filled.css";
-//import Success from "../lottie/Success";
-import "./navbar.css"
 
 const Navbar = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-  const [success, setSuccess] = useState(false);
 
-    const handleLogout = async (e) => {
-        setSuccess(true);
-        await dispatch(logout());
+    const handleLogout = () => {
+        dispatch(logout());
         navigate("/");
     }
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav
+        className="navbar navbar-expand-lg"
+        style={{
+          height: "70px",
+          backgroundColor: "#000",
+          padding: 0,
+          marginBottom: 50,
+        }}
+      >
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
           <li className="nav-item">
-            <Link className="nav-link" to="/">
+            <Link
+              className="nav-link"
+              to="/"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "#fff",
+                marginLeft: "10px",
+              }}
+            >
+              <span
+                class="material-icons"
+                style={{
+                  display: "block",
+                  color: "#fff",
+                  fontSize: "24px",
+                }}
+              >
+                home
+              </span>
               Home
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link className="nav-link" to="/GroupedTeamMembers">
-              Teams
             </Link>
           </li>
         </ul>
 
         <ul className="navbar-nav">
           <li className="nav-item">
-            <button className="nav-link btn btn-link" onClick={handleLogout}>
+            <button
+              className="nav-link btn btn-link"
+              onClick={handleLogout}
+              style={{ marginRight: "10px", color: "#fff" }}
+            >
               <span class="material-icons">logout</span>
-              Logout
+              <span
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "#fff"
+                }}
+              >
+                Logout
+              </span>
             </button>
           </li>
         </ul>

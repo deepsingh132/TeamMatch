@@ -13,8 +13,6 @@ import {
 
 const UpdateForm = (props) => {
   const { selectedEmployee, username } = props;
-  //const username = props.username;
-  console.log(props.username);
 
   const [fullName, setFullName] = useState(FULLNAME_INITIAL_STATE);
   const [teamName, setTeamName] = useState(TEAMNAME_INITIAL_STATE);
@@ -32,44 +30,40 @@ const UpdateForm = (props) => {
     formData.append("designation", designation);
     formData.append("skills", skills);
     formData.append("experience", experience);
-    formData.append("img", img);
-    // if (img) {
-    //   formData.append("img", img);
-    // }
     props.onSubmit(formData);
+  };
 
-    console.log(formData);
-    console.log(formData.get('img'));
-
+  const validateImage = (file) => {
+    if (!file) {
+      return { valid: false, message: "No file selected" };
+    }
+    if (!file.type.match(/^image\/(jpeg|png)$/)) {
+      return { valid: false, message: "Only JPG and PNG files are allowed!" };
+    }
+    if (file.size > 1048576) {
+      return { valid: false, message: "File size should not exceed 1MB!" };
+    }
+    return { valid: true };
   };
 
   const handleImgChange = (e) => {
     const selectedFile = e.target.files[0];
-     const reader = new FileReader();
-    if (!selectedFile) {
-      setImg(null);
-      return;
-    }
-    if (
-      selectedFile.type !== "image/jpeg" &&
-      selectedFile.type !== "image/png"
-    ) {
-      alert("Only JPG and PNG files are allowed!");
-      setImg(null);
-      return;
-    }
-    if (selectedFile.size > 1048576) {
-      alert("File size should not exceed 1MB!");
-      setImg(null);
-      return;
-    }
+    const reader = new FileReader();
 
-    reader.onload = () => {
-      const buffer = Buffer.from(reader.result);
-      setImg(buffer);
-    };
-    reader.readAsArrayBuffer(selectedFile);
-
+    const validation = validateImage(selectedFile);
+    if (validation.valid) {
+      reader.onload = () => {
+        const buffer = Buffer.from(reader.result);
+        setImg(buffer);
+      };
+      reader.readAsArrayBuffer(selectedFile);
+    } else {
+      setImg(null);
+      alert(validation.message);
+      e.target.value = null; // Reset file input value to empty string
+      return;
+    }
+    setImg(null);
   };
 
   useEffect(() => {
@@ -79,21 +73,19 @@ const UpdateForm = (props) => {
       setDesignation(selectedEmployee.designation);
       setSkills(selectedEmployee.skills);
       setExperience(selectedEmployee.experience);
-      setImg(selectedEmployee.img)
     }
   }, [selectedEmployee]);
 
   return (
     <div className="register">
       <span className="registerTitle">Update Member</span>
-      <form className="registerForm"
-      onSubmit={onSubmit}
-      >
+      <form className="registerForm" onSubmit={onSubmit}>
         <label>Full Name</label>
         <input
           type="text"
           value={fullName}
           className="registerInput"
+          required
           placeholder="Enter name"
           onChange={(e) => setFullName(e.target.value)}
         />
@@ -101,6 +93,7 @@ const UpdateForm = (props) => {
         <select
           value={teamName}
           className="registerInput"
+          required
           onChange={(e) => setTeamName(e.target.value)}
         >
           <option value="A">Team A</option>
@@ -113,6 +106,7 @@ const UpdateForm = (props) => {
         <input
           type="text"
           value={designation}
+          required
           className="registerInput"
           placeholder="Enter designation"
           onChange={(e) => setDesignation(e.target.value)}
@@ -122,6 +116,7 @@ const UpdateForm = (props) => {
         <input
           type="text"
           value={skills}
+          required
           className="registerInput"
           placeholder="Enter skills"
           onChange={(e) => setSkills(e.target.value)}
@@ -134,28 +129,31 @@ const UpdateForm = (props) => {
           className="registerInput"
           placeholder="Enter experience"
           min="0"
-          step="0.1"
+          step="0.5"
           onChange={(e) => setExperience(e.target.value)}
         />
 
         <div
+          className="file-input-container"
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+            width: "100%",
           }}
         >
-          <label htmlFor="fileInput" style={{ flexBasis: "40%" }}>
+          <label htmlFor="fileInput" style={{ flexBasis: "40%", marginRight: "10px" }}>
             Employee Image:
           </label>
-          <input
-            type="file"
-            accept=".jpg,.jpeg,.png"
-            name="img"
-            onChange={(e) => {
-              handleImgChange(e);
-            }}
-          />
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              name="img"
+              id="fileInput"
+              onChange={(e) => {
+                handleImgChange(e);
+              }}
+            />
         </div>
 
         <button className="createTeambtn" type="submit">
