@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("https://team-match-api.onrender.com/auth/login", {username,password});
+      const res = await axios.post("/auth/login", {username,password});
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (err) {
