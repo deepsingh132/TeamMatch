@@ -1,2 +1,3 @@
 node_modules
 $APPDATA/npm
+.env
