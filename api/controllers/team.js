@@ -1,7 +1,6 @@
 import Team from "../models/Team.js";
 import multer from "multer";
 import sharp from "sharp";
-import formidable from "formidable";
 
 // Create Team
 const storage = multer.memoryStorage();
