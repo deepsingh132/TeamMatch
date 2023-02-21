@@ -6,22 +6,27 @@ import authRoute from "./routes/auth.js";
 import userRoute from "./routes/users.js";
 import teamRoute from "./routes/team.js";
 import cookieParser from "cookie-parser";
-const port = 4000;
+import cors from "cors";
+
 
 mongoose.set("strictQuery", false);
 dotenv.config();
+const PORT = process.env.PORT || 8000;
 
 app.use(cookieParser())
 app.use(express.json());
 
-mongoose
-  .connect(process.env.MONGO_URL, {})
-  .then(console.log("Connected!"))
-  .catch((err) => console.log(err));
+  app.use(
+    cors({
+      origin: ["https://team-match.onrender.com"],
+    })
+  );
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/teams", teamRoute);
+
+
 
 app.use((err, req, res, next) => {
   const status = err.status || 500;
@@ -33,8 +38,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
-  console.log("App running at port:", port);
-});
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() =>
+    app.listen(PORT, () => {
+      console.log(`Server running on port: ${PORT}`);
+})
+)
+  .catch((err) => console.log(err));
 
 export default app;
