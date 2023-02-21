@@ -109,9 +109,6 @@ export const updateTeam =  async (req, res) => {
 
     try {
       const team = await Team.findById(req.params.id);
-      console.log(req.params.id);
-      console.log(req.body.username);
-      console.log(req.body);
 
       if (team.username == teamMemberData.username) {
         try {
@@ -173,7 +170,6 @@ export const updateTeam =  async (req, res) => {
         teams = await Team.find();
       }
       res.status(200).json(teams);
-      console.log(await Team.countDocuments({ username }));
     } catch (err) {
       res.status(500).json(err);
     }

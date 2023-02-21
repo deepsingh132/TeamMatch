@@ -8,10 +8,11 @@ import Login from "./pages/login/Login";
 import { useSelector } from "react-redux";
 import Home from "./pages/home/Home";
 import CreateTeam from "./pages/team/Team";
+import "./app.css"
 
-export default function App() {
+function App() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
+
 
   return (
     <BrowserRouter>
@@ -32,21 +33,10 @@ export default function App() {
           element={currentUser ? <Home /> : <Register />}
         />
 
-        {/*</Routes>{ <Route
-          path="/GroupedTeamMembers"
-          element={
-            <GroupedTeamMembers
-              employees={employees}
-              selectedTeam={selectedTeam}
-              setTeam={setTeam}
-            />
-          }>
-           </Route>*/}
-
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>
   );
 }
-//export default App;
+export default App;

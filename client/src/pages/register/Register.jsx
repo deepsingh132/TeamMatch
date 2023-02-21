@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerStart, registerFailure, registerSuccess } from "../../redux/userSlice";
+import { registerFailure, registerSuccess } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import "./register.css";
 
@@ -20,7 +20,7 @@ const Register = ()=> {
       dispatch(registerSuccess(res.data));
       navigate("/");
     } catch (err) {
-      //setError(true);
+      setError(true);
       dispatch(registerFailure());
     }
   };

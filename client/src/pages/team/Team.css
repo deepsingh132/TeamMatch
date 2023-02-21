@@ -1,16 +1,23 @@
-.register {
+.form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100%;
     width: 100%;
+    background: linear-gradient(
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.5)
+      ),
+      url("https://images.pexels.com/photos/317356/pexels-photo-317356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
+    background-size: cover;
   }
 
   .registerTitle {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 0px;
+    margin-top: 2rem;
     color: #222;
   }
 
@@ -54,21 +61,38 @@
   margin-left: 10px;
   }
 
-  .createTeambtn {
+  .teamBtn {
     width: 100%;
     margin: 1rem 0 0;
     padding: 0.5rem;
     background-color: #4d90fe;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: 5px;
     font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
 
-  .createTeambtn:hover {
+  .teamBtn:hover {
     background-color: #357ae8;
+  }
+
+  .deleteBtn {
+    width: 100%;
+    margin: 1rem 0 0;
+    padding: 0.5rem;
+    background-color: #fe4d4d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .deleteBtn:hover {
+    background-color: #e83535;
   }
 
 
@@ -84,18 +108,6 @@
   justify-content: center;
 }
 
-.successCard {
-  width: 350px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px;
-  text-align: center;
-}
 
 .successCard h2 {
   font-size: 24px;

@@ -6,7 +6,6 @@ const Teams = ({ selectedTeam, handleTeamSelectionChange, username }) => {
 
   const teamNames = ["A", "B", "C", "D"];
   const navigate = useNavigate();
-  console.log(username);
 
   const handleBtn = () => {
     navigate('/createteam', {state: {username}} );
@@ -15,10 +14,11 @@ const Teams = ({ selectedTeam, handleTeamSelectionChange, username }) => {
 
 
   return (
-    <div class="d-flex align-items-center">
+    <div className="d-flex align-items-center">
       <select
         className="form-select form-select-lg mb-3 text-center align-items-center"
         value={selectedTeam}
+        style={{cursor: "pointer"}}
         onChange={handleTeamSelectionChange}
       >
         {teamNames.map((teamName) => (

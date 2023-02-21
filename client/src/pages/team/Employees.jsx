@@ -9,9 +9,6 @@ const Employees = ({
   username,
 }) => {
 
-  // const { selectedEmployee } = this.state;
-  // console.log(selectedEmployee._id);
-
   return (
     <main className="container">
       <div className="row justify-content-center mt-3 mb-3">
@@ -29,6 +26,7 @@ const Employees = ({
         <div className="col-9">
           <div className="card-collection">
             <TeamMembers
+              key={employees.id}
               employees={employees.filter(
                 (employee) => employee.teamName === selectedTeam
               )}

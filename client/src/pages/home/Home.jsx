@@ -16,7 +16,6 @@ const Home = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const username = currentUser.username;
-  console.log(username);
 
   const navigate = useNavigate();
 
@@ -27,7 +26,6 @@ const Home = ({ currentUser }) => {
     if (cachedData) {
       loadedFromCache = true;
       setIsLoading(false);
-      console.log("Data loaded from local storage");
       setEmployees(cachedData);
     }
 
@@ -54,7 +52,6 @@ const Home = ({ currentUser }) => {
   }
 
   function handleEmployeeCardClick(selectedEmployee) {
-    console.log(selectedEmployee._id);
     navigate("/updateteam?update=true", {
       state: {
         username: username,

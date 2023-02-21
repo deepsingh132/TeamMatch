@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Team.css";
+import "./team.css";
 import { Buffer } from "buffer";
 
 import {
@@ -32,7 +32,6 @@ const CreateForm = (props) => {
     formData.append("designation", designation);
     formData.append("skills", skills);
     formData.append("experience", experience);
-    console.log("FormData:", formData);
     props.onSubmit(formData);
   };
 
@@ -70,7 +69,7 @@ const CreateForm = (props) => {
  };
 
   return (
-    <div className="register">
+    <div className="form">
       <span className="registerTitle">Create Member</span>
       <form className="registerForm" onSubmit={onSubmit}>
         <label>Full Name</label>
@@ -134,7 +133,10 @@ const CreateForm = (props) => {
             width: "100%",
           }}
         >
-          <label htmlFor="fileInput" style={{ flexBasis: "40%" , marginRight: "10px"}}>
+          <label
+            htmlFor="fileInput"
+            style={{ flexBasis: "40%", marginRight: "10px" }}
+          >
             Employee Image:
           </label>
           <input
@@ -147,7 +149,7 @@ const CreateForm = (props) => {
           />
         </div>
 
-        <button className="createTeambtn" type="submit">
+        <button className="teamBtn" type="submit">
           Create Team
         </button>
       </form>

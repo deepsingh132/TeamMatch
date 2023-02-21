@@ -1,13 +1,8 @@
-/* eslint-disable jsx-a11y/alt-text */
 import { Buffer } from "buffer";
 import femaleProfile from "../../images/femaleProfile.png";
 import maleProfile from "../../images/maleProfile.png";
 
-const TeamMemberCard = ({
-  employee,
-  handleEmployeeCardClick,
-}) => {
-
+const TeamMemberCard = ({ employee, handleEmployeeCardClick }) => {
   return (
     <div
       key={employee.id}
@@ -16,22 +11,31 @@ const TeamMemberCard = ({
       style={{ cursor: "pointer" }}
       onClick={handleEmployeeCardClick}
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
         {employee.img ? (
           <img
-            class="card-img-top"
+            className="card-img-top"
+            alt="img"
             src={`data:${employee.img.contentType};base64,${Buffer.from(
               employee.img.data
             ).toString("base64")}`}
+            style={{ objectFit: "cover", height: "17rem" }}
           />
         ) : (
           <img
-            class="card-img-top"
+            className="card-img-top"
+            alt="img"
             src={employee.gender === "female" ? femaleProfile : maleProfile}
           />
         )}
-        <div className="card-body" style={{ alignSelf: "center" }}>
-          <h5 className="card-title">Full Name: {employee.fullName}</h5>
+        <div
+          className="card-body"
+          style={{ height: "100%" , alignSelf:"center", marginTop: "1rem"}}
+        >
+          <h5 className="card-title">
+            <span style={{ fontWeight: "600" }}>Full Name:</span>{" "}
+            {employee.fullName}
+          </h5>
           <p className="card-text">
             <b>Designation:</b> {employee.designation}
           </p>

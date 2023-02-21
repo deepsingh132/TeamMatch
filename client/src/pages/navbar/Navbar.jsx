@@ -19,9 +19,8 @@ const Navbar = () => {
         className="navbar navbar-expand-lg"
         style={{
           height: "70px",
-          backgroundColor: "#000",
+          backgroundColor: "#2C3E50",
           padding: 0,
-          marginBottom: 50,
         }}
       >
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
@@ -39,7 +38,7 @@ const Navbar = () => {
               }}
             >
               <span
-                class="material-icons"
+                className="material-icons"
                 style={{
                   display: "block",
                   color: "#fff",
@@ -60,14 +59,14 @@ const Navbar = () => {
               onClick={handleLogout}
               style={{ marginRight: "10px", color: "#fff" }}
             >
-              <span class="material-icons">logout</span>
+              <span className="material-icons">logout</span>
               <span
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "center",
-                  color: "#fff"
+                  color: "#fff",
                 }}
               >
                 Logout
