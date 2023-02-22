@@ -15,6 +15,8 @@ const PORT = process.env.PORT;
 
 app.use(cookieParser())
 app.use(express.json());
+// Enable CORS for all requests
+app.use(cors());
 
 
 app.use("/api/auth", authRoute);
