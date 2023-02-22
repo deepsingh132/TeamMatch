@@ -2,7 +2,6 @@
   "name": "react",
   "version": "1.0.0",
   "description": "React single page web app",
-  "proxy": "https://team-match-api.onrender.com",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
