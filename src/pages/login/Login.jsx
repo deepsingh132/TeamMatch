@@ -19,10 +19,13 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const res = await axios.post("/auth/login", {username,password});
+      console.log(res);
+      console.log(res.data);
       dispatch(loginSuccess(res.data));
       navigate("/");
     } catch (err) {
       dispatch(loginFailure());
+      console.log(err);
     }
   };
 
