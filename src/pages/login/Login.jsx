@@ -18,7 +18,10 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const res = await axios.post("/auth/login", {username,password});
+      const res = await axios.post("/auth/login", {
+      username: username,
+      password: password,
+      });
       console.log(res);
       console.log(res.data);
       dispatch(loginSuccess(res.data));
