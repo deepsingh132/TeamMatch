@@ -32,7 +32,7 @@ const Home = ({ currentUser }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `/teams?user=${username}&teamName=${selectedTeam}`
+          `https://team-match-api.onrender.com/api/teams?user=${username}&teamName=${selectedTeam}`
         );
         setEmployees(response.data);
         setIsLoading(false);
