@@ -21,11 +21,11 @@ const Team = () => {
     try {
       if (isUpdating) {
         console.log(formData);
-        await axios.put(`/teams/${id}?update=true`, formData); // Use PUT method for updating
+        await axios.put(`https://team-match-api.onrender.com/api/teams/${id}?update=true`, formData); // Use PUT method for updating
         setSuccessMessage("Team member updated successfully!");
         setTimeout(() => navigate("/"), 1000); // Navigate after 1 seconds
       } else {
-        await axios.post("/teams/:id", formData); // Use POST method for creating
+        await axios.post("https://team-match-api.onrender.com/api/teams/:id", formData); // Use POST method for creating
         setSuccessMessage("Team member created successfully!");
         setTimeout(() => navigate("/"), 1000); // Navigate after 1 seconds
       }
