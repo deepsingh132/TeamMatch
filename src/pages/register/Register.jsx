@@ -16,7 +16,7 @@ const Register = ()=> {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/auth/register", {username,email,password});
+      const res = await axios.post("https://team-match-api.onrender.com/api/auth/register", {username,email,password});
       dispatch(registerSuccess(res.data));
       navigate("/");
     } catch (err) {
