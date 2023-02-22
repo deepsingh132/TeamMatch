@@ -11,16 +11,11 @@ import cors from "cors";
 
 mongoose.set("strictQuery", false);
 dotenv.config();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT;
 
 app.use(cookieParser())
 app.use(express.json());
 
-  app.use(
-    cors({
-      origin: ["https://team-match.onrender.com"],
-    })
-  );
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
