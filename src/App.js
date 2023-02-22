@@ -12,6 +12,8 @@ import "./app.css"
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
+  
+  console.log(currentUser);
 
 
   return (
