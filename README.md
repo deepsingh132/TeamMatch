@@ -45,6 +45,9 @@ Built With
 
 * React - A JavaScript library for building user interfaces
 * npm - Package manager for JavaScript
+* MongoDB - A NoSql database
+* Express - Backend framework for developing nodejs applications
+* NodeJS - Open source runtime environment for javascript
 
 Contributing
 
